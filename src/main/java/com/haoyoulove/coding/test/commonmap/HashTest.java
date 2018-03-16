@@ -1,5 +1,6 @@
 package com.haoyoulove.coding.test.commonmap;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -30,6 +31,9 @@ public class HashTest {
 		}
 		System.out.println(j);
 
+		Map<String, Object> map = new HashMap<>();
+		map.put(null,null);
+		System.out.println(map);
 
 	}
 }

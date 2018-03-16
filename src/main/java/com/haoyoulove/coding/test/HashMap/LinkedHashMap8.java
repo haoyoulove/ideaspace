@@ -189,7 +189,13 @@
 //	/**
 //	 * HashMap.Node subclass for normal LinkedHashMap entries.
 //	 */
+//	//LinkedHashMap.Entey 继承自 HashMap.Node，
+//	//而 HashMap.TreeNode 又继承了 LinkedHashMap.Entey
 //	static class Entry<K,V> extends HashMap.Node<K,V> {
+//		//在父类的基础上增加了before 和 after
+//		//父类中存在 next
+//		//双向链表的连接通过before 和 after，哈希表中所有的元素可看作一个双向链表
+//		//桶内单向链表的连接通过 next
 //		Entry<K,V> before, after;
 //		Entry(int hash, K key, V value, Node<K,V> next) {
 //			super(hash, key, value, next);
@@ -200,35 +206,25 @@
 //
 //	/**
 //	 * The head (eldest) of the doubly linked list.
+//	 * 双向链表头
 //	 */
 //	transient LinkedHashMap.Entry<K,V> head;
 //
 //	/**
 //	 * The tail (youngest) of the doubly linked list.
+//	 * 双向链表尾
 //	 */
 //	transient LinkedHashMap.Entry<K,V> tail;
 //
 //	/**
-//	 * The iteration ordering method for this linked hash map: <tt>true</tt>
-//	 * for access-order, <tt>false</tt> for insertion-order.
-//	 *
+//	 * The iteration ordering method for this linked hash map: <tt>true</tt> for access-order, <tt>false</tt> for insertion-order.
+//	 * 迭代排序方式 访问顺序 true 插入顺序 false
 //	 * @serial
 //	 */
 //	final boolean accessOrder;
 //
 //	// internal utilities
 //
-//	// link at the end of list
-//	private void linkNodeLast(LinkedHashMap.Entry<K,V> p) {
-//		LinkedHashMap.Entry<K,V> last = tail;
-//		tail = p;
-//		if (last == null)
-//			head = p;
-//		else {
-//			p.before = last;
-//			last.after = p;
-//		}
-//	}
 //
 //	// apply src's links to dst
 //	private void transferLinks(LinkedHashMap.Entry<K,V> src,
@@ -252,12 +248,32 @@
 //		head = tail = null;
 //	}
 //
+//	// 重写 创建链表的方法
 //	Node<K,V> newNode(int hash, K key, V value, Node<K,V> e) {
 //		LinkedHashMap.Entry<K,V> p =
 //				new LinkedHashMap.Entry<K,V>(hash, key, value, e);
+//		// 创建一个新链表放到链表后面
 //		linkNodeLast(p);
 //		return p;
 //	}
+//
+//	// link at the end of list
+//	private void linkNodeLast(LinkedHashMap.Entry<K,V> p) {
+//		// 链表尾节点
+//		LinkedHashMap.Entry<K,V> last = tail;
+//		// 新增节点放到尾部
+//		tail = p;
+//		if (last == null)
+//			//第一个节点 又是尾节点，又是头节点
+//			head = p;
+//		else {
+//			// 当前新增的节点前面放置之前的节点
+//			p.before = last;
+//			// 之前的尾节点点后面跟着新增节点
+//			last.after = p;
+//		}
+//	}
+//
 //
 //	Node<K,V> replacementNode(Node<K,V> p, Node<K,V> next) {
 //		LinkedHashMap.Entry<K,V> q = (LinkedHashMap.Entry<K,V>)p;
@@ -304,9 +320,9 @@
 //
 //	void afterNodeAccess(Node<K,V> e) { // move node to last
 //		LinkedHashMap.Entry<K,V> last;
+//		// 按照访问顺序来布局,并且将这次访问的这个节点放到最后。
 //		if (accessOrder && (last = tail) != e) {
-//			LinkedHashMap.Entry<K,V> p =
-//					(LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
+//			LinkedHashMap.Entry<K,V> p = (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
 //			p.after = null;
 //			if (b == null)
 //				head = a;
@@ -361,8 +377,7 @@
 //	}
 //
 //	/**
-//	 * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance
-//	 * with the default initial capacity (16) and load factor (0.75).
+//	 * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance with the default initial capacity (16) and load factor (0.75).
 //	 */
 //	public LinkedHashMap() {
 //		super();
@@ -375,8 +390,6 @@
 //	 * instance is created with a default load factor (0.75) and an initial
 //	 * capacity sufficient to hold the mappings in the specified map.
 //	 *
-//	 * @param  m the map whose mappings are to be placed in this map
-//	 * @throws NullPointerException if the specified map is null
 //	 */
 //	public LinkedHashMap(Map<? extends K, ? extends V> m) {
 //		super();
@@ -388,16 +401,10 @@
 //	 * Constructs an empty <tt>LinkedHashMap</tt> instance with the
 //	 * specified initial capacity, load factor and ordering mode.
 //	 *
-//	 * @param  initialCapacity the initial capacity
-//	 * @param  loadFactor      the load factor
-//	 * @param  accessOrder     the ordering mode - <tt>true</tt> for
-//	 *         access-order, <tt>false</tt> for insertion-order
-//	 * @throws IllegalArgumentException if the initial capacity is negative
-//	 *         or the load factor is nonpositive
+//	 * 默认都是按照 hashMap的方式来构造，不管是默认值还是加载因子
+//	 * 只是accessOrder是迭代方式，默认是accessOrder是false,也就是按照插入顺序
 //	 */
-//	public LinkedHashMap(int initialCapacity,
-//						 float loadFactor,
-//						 boolean accessOrder) {
+//	public LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder) {
 //		super(initialCapacity, loadFactor);
 //		this.accessOrder = accessOrder;
 //	}
@@ -437,8 +444,10 @@
 //	 */
 //	public V get(Object key) {
 //		Node<K,V> e;
+//		// 和hashmap访问方式一致
 //		if ((e = getNode(hash(key), key)) == null)
 //			return null;
+//		// 如果按照访问顺序，就需要变化顺序
 //		if (accessOrder)
 //			afterNodeAccess(e);
 //		return e.value;

@@ -1,5 +1,8 @@
 package com.haoyoulove.coding.test.HashMap;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * @author yangjing
  */
@@ -19,7 +22,7 @@ public class HashMapTest2 {
 //		}
 
 
-		HashMapResize8.Node<String,String>[] oldTab = (HashMapResize8.Node<String,String>[])new HashMapResize8.Node[2];
+//		HashMapResize8.Node<String,String>[] oldTab = (HashMapResize8.Node<String,String>[])new HashMapResize8.Node[2];
 //
 //		HashMapResize8.Node node1 = new HashMapResize8.Node<>(1,"key1","value1",null);
 //
@@ -47,7 +50,18 @@ public class HashMapTest2 {
 //		System.out.println(7 & 2);
 //		System.out.println(8 & 2);
 
-
+		LinkedHashMap<String,Integer> lmap = new LinkedHashMap<>();
+		lmap.put("语文", 1);
+		lmap.put("数学", 2);
+		lmap.put("英语", 3);
+		lmap.put("历史", 4);
+		lmap.put("政治", 5);
+		lmap.put("地理", 6);
+		lmap.put("生物", 7);
+		lmap.put("化学", 8);
+		for(Map.Entry<String, Integer> entry : lmap.entrySet()) {
+			System.out.println(entry.getKey() + ": " + entry.getValue());
+		}
 
 	}
 }
