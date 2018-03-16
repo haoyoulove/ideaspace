@@ -25,7 +25,6 @@ public class HashTest {
 //		System.out.println((hash & 0x7FFFFFFF) % 11);
 
 		int j = 0;
-
 		for (int i = 0; i < 100; i++) {
 			j = ++j;
 		}
