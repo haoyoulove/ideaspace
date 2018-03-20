@@ -1250,6 +1250,9 @@
 //		 * backing map, and the other values are ignored. Otherwise,
 //		 * if loInclusive is true, lo is the inclusive bound, else lo
 //		 * is the exclusive bound. Similarly for the upper bound.
+//		 *
+//		 * 终点表示为三元组（来自Start，Lo，loInclusive）和（toEnd，hi，hiInclusive）。
+//		 * 如果fromStart为true，那么低（绝对）边界是支持映射的开始，其他值将被忽略。 否则，如果loInclusive为真，则lo是包容性界限，否则lo是独占界限。 类似的上限。
 //		 */
 //		final K lo, hi;
 //		final boolean fromStart, toEnd;
@@ -2354,13 +2357,13 @@
 //		buildFromSorted(size, null, s, null);
 //	}
 //
-//	/** Intended to be called only from TreeSet.readObject */
+//	/** Intended to be called only from TreeSet8.readObject */
 //	void readTreeSet(int size, java.io.ObjectInputStream s, V defaultVal)
 //			throws java.io.IOException, ClassNotFoundException {
 //		buildFromSorted(size, null, s, defaultVal);
 //	}
 //
-//	/** Intended to be called only from TreeSet.addAll */
+//	/** Intended to be called only from TreeSet8.addAll */
 //	void addAllForTreeSet(SortedSet<? extends K> set, V defaultVal) {
 //		try {
 //			buildFromSorted(set.size(), set.iterator(), null, defaultVal);
