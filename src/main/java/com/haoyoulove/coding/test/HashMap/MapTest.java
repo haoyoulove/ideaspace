@@ -57,7 +57,7 @@ public class MapTest {
 
 
 //		// 1.8 2  map ->forEach + Lambda表达式 增强
-//		List<String> list3 = new ArrayList<>();
+//		List<String> list3 = new ArrayList8<>();
 //		map3.forEach((s, o) ->{
 //					list3.add(s);
 //					System.out.println("k: "+s +", o: "+ o );
