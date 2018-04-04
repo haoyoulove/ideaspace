@@ -19,7 +19,13 @@
       <artifactId>ga-ccfw-common</artifactId>
       <version>1.0.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.10</version>
+    </dependency>
   </dependencies>
+
   <properties>
 
     <maven_compiler_plugin_version>3.5.1</maven_compiler_plugin_version>
