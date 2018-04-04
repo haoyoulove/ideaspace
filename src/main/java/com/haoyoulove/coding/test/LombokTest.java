@@ -28,6 +28,7 @@ public class LombokTest {
 	        System.out.println(student.equals(student2));  
 	  
 	        log.info("lombok test");  
+	        
 	  
 	    }  
 }
