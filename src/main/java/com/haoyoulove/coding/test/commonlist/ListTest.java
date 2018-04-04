@@ -76,18 +76,18 @@ public class ListTest {
 //		}
 
 
-		LinkedList8<String> test = new LinkedList8<>();
-		test.add("123");
-		test.add("1231");
-		test.add("1223");
-		test.add("1234");
-		test.add("1235");
-
-		ListIterator<String> it = test.listIterator(test.size);
-		while (it.hasPrevious()){
-			String previous = it.previous();
-			System.out.println(previous);
-		}
+//		LinkedList8<String> test = new LinkedList8<>();
+//		test.add("123");
+//		test.add("1231");
+//		test.add("1223");
+//		test.add("1234");
+//		test.add("1235");
+//
+//		ListIterator<String> it = test.listIterator(test.size);
+//		while (it.hasPrevious()){
+//			String previous = it.previous();
+//			System.out.println(previous);
+//		}
 
 //		while (it.hasNext()){
 //			String next = it.next();
@@ -95,7 +95,19 @@ public class ListTest {
 //		}
 
 
+		int a = 0;
+		int b = 0;
 
+		if(a++ > 0 && b++ > 0){
+			System.out.println(b++);
+		}
+
+		System.out.println(b);
+
+		if(a == 1 && b++ == 0){
+			b++;
+		}
+		System.out.println(b);
 	}
 }
 
