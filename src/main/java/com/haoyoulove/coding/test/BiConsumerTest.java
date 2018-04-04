@@ -17,11 +17,12 @@ public class BiConsumerTest {
 	public static void main(String[]  args){
 		Map<String, Object> map = new HashMap<>(4);
 		map.put("test", 1);
-//		map.put("test2", 2);
+		map.put("test2", 2);
 
 
-		//自定义传入的参数进行操作
-
+		/**
+		 * 自定义传入的参数进行操作
+		 */
 		BiConsumer<String, Object> bic = (s, o) ->
 				System.out.println("k: "+s +", o: "+ o);
 
@@ -42,7 +43,6 @@ public class BiConsumerTest {
 //		}
 //		);
 
-//		ExecutorService executorService = Executors.newFixedThreadPool(5);
 
 
 	}
