@@ -43,5 +43,5 @@ public interface Lock8 {
     /**
      * 获取等待通知组件，该组件和当前锁绑定，当前线程只有获取了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁。
      */
-    Condition newCondition();
+    Condition8 newCondition();
 }

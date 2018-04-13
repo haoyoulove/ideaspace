@@ -73,8 +73,9 @@ public class MutexLock implements Lock8{
 	}
 
 	@Override
-	public Condition newCondition() {
-		return sync.newCondition();
+	public Condition8 newCondition() {
+//		return sync.newCondition();
+		return null;
 	}
 	
 }
