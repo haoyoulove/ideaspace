@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package com.haoyoulove.coding.test.concurrentHashMap;
+package com.haoyoulove.coding.test.lock;
 import java.util.concurrent.TimeUnit;
 
 public interface Lock7 {
