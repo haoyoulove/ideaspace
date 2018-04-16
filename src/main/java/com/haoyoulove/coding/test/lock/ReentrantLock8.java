@@ -30,11 +30,13 @@ public class ReentrantLock8 implements Lock8, java.io.Serializable {
             final Thread current = Thread.currentThread();
             int c = getState();
             if (c == 0) {
+            	// 刚释放锁的线程和在等待锁里面的线程一起竞争，刚释放的线程获取同步状态的几率较大。
                 if (compareAndSetState(0, acquires)) {
                     setExclusiveOwnerThread(current);
                     return true;
                 }
             }
+            // 如果c!=0，那么说明有线程占有同步状态，这里是使得同一个线程可重入锁
             else if (current == getExclusiveOwnerThread()) {
                 int nextc = c + acquires;
                 if (nextc < 0) // overflow
@@ -103,6 +105,7 @@ public class ReentrantLock8 implements Lock8, java.io.Serializable {
          * acquire on failure.
          */
         final void lock() {
+        	//非公平锁马上尝试去更新获取锁
             if (compareAndSetState(0, 1))
                 setExclusiveOwnerThread(Thread.currentThread());
             else
@@ -138,6 +141,7 @@ public class ReentrantLock8 implements Lock8, java.io.Serializable {
                     return true;
                 }
             }
+         // 如果c!=0，那么说明有线程占有同步状态，这里是使得同一个线程可重入锁
             else if (current == getExclusiveOwnerThread()) {
                 int nextc = c + acquires;
                 if (nextc < 0)
