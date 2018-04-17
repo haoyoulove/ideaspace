@@ -1182,12 +1182,11 @@ public abstract class AbstractQueuedSynchronizer8
     }
 
     /**
-     * Transfers a node from a condition queue onto sync queue.
-     * Returns true if successful.
-     * @param node the node
-     * @return true if successfully transferred (else the node was
-     * cancelled before signal)
-     */
+          *将条件队列中的节点传输到同步队列中。 如果成功则返回true。
+          * @param节点的节点
+          * @如果成功传输，则返回true（否则节点是
+          *信号前取消）
+         */
     final boolean transferForSignal(Node node) {
         /*
          * If cannot change waitStatus, the node has been cancelled.
@@ -1372,20 +1371,25 @@ public abstract class AbstractQueuedSynchronizer8
         /**
          * Adds a new waiter to wait queue.
          * @return its new wait node
+         * 当前线程加入等待队列
          */
         private Node addConditionWaiter() {
             Node t = lastWaiter;
             // If lastWaiter is cancelled, clean out.
+            // 尾节点不为空时，遍历节点针对等待队列上的节点进行清理
             if (t != null && t.waitStatus != Node.CONDITION) {
                 unlinkCancelledWaiters();
                 t = lastWaiter;
             }
+            // 创建新节点
             Node node = new Node(Thread.currentThread(), Node.CONDITION);
+            //获取首节点对象
             if (t == null) {
                 firstWaiter = node;
             } else {
                 t.nextWaiter = node;
             }
+            // 如果是第一个节点，首尾节点都是同一个节点
             lastWaiter = node;
             return node;
         }
@@ -1395,15 +1399,21 @@ public abstract class AbstractQueuedSynchronizer8
          * null. Split out from signal in part to encourage compilers
          * to inline the case of no waiters.
          * @param first (non-null) the first node on condition queue
+         * 
+         * 删除并传输节点，直到命中未被取消的节点或为空。 部分信号从信号中分离出来，
+         * 以鼓励编制人员插手没有服务员的情况。 @param first（非null）条件队列上的第一个节点
+         * 
+         * 这里其实就是把第一个节点给排出来。
          */
         private void doSignal(Node first) {
             do {
+            	// 把下一个节点赋予首节店
                 if ( (firstWaiter = first.nextWaiter) == null) {
                     lastWaiter = null;
                 }
+                //要去掉的节点断开
                 first.nextWaiter = null;
-            } while (!transferForSignal(first) &&
-                     (first = firstWaiter) != null);
+            } while (!transferForSignal(first) && (first = firstWaiter) != null);
         }
 
         /**
@@ -1433,6 +1443,12 @@ public abstract class AbstractQueuedSynchronizer8
          * particular target to unlink all pointers to garbage nodes
          * without requiring many re-traversals during cancellation
          * storms.
+         * 
+         *  取消将条件队列取消的服务器节点链接。 只有在保持锁定的情况下调用。 
+         *  这是在条件等待期间发生取消时以及在lastWaiter被视为取消时插入新的服务员时调用的。
+         *  在没有信号的情况下，需要使用此方法来避免垃圾留存。
+         *  所以即使它可能需要全部遍历，它只有在没有信号的情况下发生超时或取消时才会发挥作用。 
+         *  它遍历所有节点，而不是停止在特定目标上，以便在取消风暴期间不需要许多重新遍历就可以将所有指向垃圾节点的链接解除链接。
          */
         private void unlinkCancelledWaiters() {
             Node t = firstWaiter;
@@ -1463,12 +1479,15 @@ public abstract class AbstractQueuedSynchronizer8
          * Moves the longest-waiting thread, if one exists, from the
          * wait queue for this condition to the wait queue for the
          * owning lock.
+         * 
+         * 将等候时间最长的线程（如果存在）从此状态的等待队列移至拥有锁的等待队列。
          *
          * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
          *         returns {@code false}
          */
         @Override
         public final void signal() {
+        	// 调用之前必须获取锁
             if (!isHeldExclusively()) {
                 throw new IllegalMonitorStateException();
             }
@@ -1530,9 +1549,13 @@ public abstract class AbstractQueuedSynchronizer8
          * interrupted while blocked waiting to re-acquire.
          */
 
-        /** Mode meaning to reinterrupt on exit from wait */
+        /** Mode meaning to reinterrupt on exit from wait 
+         * 模式意味着重新中断退出等待
+         * */
         private static final int REINTERRUPT =  1;
-        /** Mode meaning to throw InterruptedException on exit from wait */
+        /** Mode meaning to throw InterruptedException on exit from wait 
+         * 模式含义抛出InterruptedException退出等待
+         * */
         private static final int THROW_IE    = -1;
 
         /**
@@ -1577,20 +1600,25 @@ public abstract class AbstractQueuedSynchronizer8
             if (Thread.interrupted()) {
                 throw new InterruptedException();
             }
+            //增加节点到等待队列
             Node node = addConditionWaiter();
+            // 释放当前线程的所有锁
             int savedState = fullyRelease(node);
             int interruptMode = 0;
+            // 中断等待
             while (!isOnSyncQueue(node)) {
                 LockSupport8.park(this);
                 if ((interruptMode = checkInterruptWhileWaiting(node)) != 0) {
                     break;
                 }
             }
+            // 重新获取锁，如果唤醒的那个线程还没有结束，这里是需要等待的
             if (acquireQueued(node, savedState) && interruptMode != THROW_IE) {
                 interruptMode = REINTERRUPT;
             }
             if (node.nextWaiter != null) // clean up if cancelled
             {
+            	//断掉这个节点
                 unlinkCancelledWaiters();
             }
             if (interruptMode != 0) {
