@@ -61,7 +61,7 @@ public class HashMapTest {
 		// 11111111111111111111000011101010
 //		String s = "11111111111111111111000011101010";
 //		System.out.println(s.length());
-//		System.out.println(Integer.valueOf("00000000000000000000000001100110",2).toString());
+		System.out.println(Integer.valueOf("00000000000000000000000001100110",2).toString());
 
 //		System.out.println(BinstrToStr(s));
 

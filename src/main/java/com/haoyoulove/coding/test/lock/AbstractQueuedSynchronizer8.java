@@ -1002,13 +1002,15 @@ public abstract class AbstractQueuedSynchronizer8
      * #tryAcquireShared}) then it is guaranteed that the current thread
      * is not the first queued thread.  Used only as a heuristic in
      * ReentrantReadWriteLock.
+     * 
+     * 只要不满足满足 下面四个条件中的任何一个，就为false
+     * 相反!apparentlyFirstQueuedIsExclusive,就是这四个中只任何一个不满足，
+     * 返回false都可以。如果每一个都满足反而不对
+     * 
      */
     final boolean apparentlyFirstQueuedIsExclusive() {
         Node h, s;
-        return (h = head) != null &&
-            (s = h.next)  != null &&
-            !s.isShared()         &&
-            s.thread != null;
+        return (h = head) != null && (s = h.next)  != null && !s.isShared()   &&  s.thread != null;
     }
 
     /**
