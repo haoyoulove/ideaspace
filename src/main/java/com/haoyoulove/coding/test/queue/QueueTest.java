@@ -1,22 +1,18 @@
 package com.haoyoulove.coding.test.queue;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class QueueTest {
 	
 	public static void main(String[] args) {
 		
-//		int t = 1;
-//		int p = 0;
-//		p = (t != (t = 5)) ? t : 8;
-//		System.out.println(p);
+//		BlockingQueue<String> bq = new ArrayBlockingQueue<>(2);
+//		bq.offer("1");
+//		bq.offer("2");
+//		bq.offer("3");
 		
 		
-		 for (int h = 1, p = h, q;;) {
-			 System.out.println(h);
-			 System.out.println(p);
-			 System.out.println(q = p);
-			 break;
-		 }
 	}
 
 }
