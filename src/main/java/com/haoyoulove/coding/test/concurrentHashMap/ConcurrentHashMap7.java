@@ -244,40 +244,10 @@ public class ConcurrentHashMap7<K, V> extends AbstractMap<K, V>
 	 * segment片段，内部数据结构，继承ReentrantLock
      */
     static final class Segment<K,V> extends ReentrantLock7 implements Serializable {
-        /*
-         * Segments maintain a table of entry lists that are always
-         * kept in a consistent state, so can be read (via volatile
-         * reads of segments and tables) without locking.  This
-         * requires replicating nodes when necessary during table
-         * resizing, so the old lists can be traversed by readers
-         * still using old version of table.
-         *
-         * This class defines only mutative methods requiring locking.
-         * Except as noted, the methods of this class perform the
-         * per-segment versions of ConcurrentHashMap7 methods.  (Other
-         * methods are integrated directly into ConcurrentHashMap7
-         * methods.) These mutative methods use a form of controlled
-         * spinning on contention via methods scanAndLock and
-         * scanAndLockForPut. These intersperse tryLocks with
-         * traversals to locate nodes.  The main benefit is to absorb
-         * cache misses (which are very common for hash tables) while
-         * obtaining locks so that traversal is faster once
-         * acquired. We do not actually use the found nodes since they
-         * must be re-acquired under lock anyway to ensure sequential
-         * consistency of updates (and in any case may be undetectably
-         * stale), but they will normally be much faster to re-locate.
-         * Also, scanAndLockForPut speculatively creates a fresh node
-         * to use in put if no node is found.
-         */
 
         private static final long serialVersionUID = 2249069246763182397L;
 
         /**
-         * The maximum number of times to tryLock in a prescan before
-         * possibly blocking on acquire in preparation for a locked
-         * segment operation. On multiprocessors, using a bounded
-         * number of retries maintains cache acquired while locating
-         * nodes.
 		 *
 		 * 尝试获取锁的最大次数
          */
@@ -833,7 +803,7 @@ public class ConcurrentHashMap7<K, V> extends AbstractMap<K, V>
 
         // 片段中索引的偏移量
         this.segmentShift = 32 - sshift;
-        // 索引分段的掩码值
+        // 索引分段的掩码值 掩码的二进制各个位的值都是1
         this.segmentMask = ssize - 1;
         // 初始值最大值
         if (initialCapacity > MAXIMUM_CAPACITY) {
