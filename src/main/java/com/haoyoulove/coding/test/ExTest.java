@@ -1,5 +1,6 @@
 package com.haoyoulove.coding.test;
 
+import java.util.Collection;
 
 public class ExTest {
 
@@ -18,8 +19,19 @@ public class ExTest {
 	}
 
 	public static void main(String args[]) {
-		methodA(0);
-		System.out.println(j);
+//		methodA(0);
+//		System.out.println(j);
+		
+		String str = "abc";
+		System.out.println(str.hashCode());
+		
+		char c = str.charAt(0);
+		char c2 = str.charAt(1);
+		char c3 = str.charAt(2);
+		System.out.println(0+c);
+		System.out.println(97 * 31 +c2);
+		
+		System.out.println(3105 * 31 +c3);
 	}
 
 
