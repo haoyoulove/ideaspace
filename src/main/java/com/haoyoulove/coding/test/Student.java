@@ -11,7 +11,7 @@
 //@Setter
 //@Getter
 //@ToString
-//
+
 //public class Student {
 //
 //	private  String name;
