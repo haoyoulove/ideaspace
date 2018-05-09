@@ -38,6 +38,8 @@ public class ExTest {
 //		System.out.println(3105 * 31 +c3);
 //	}
 
+
+
 	public static void test(){
 		//		methodA(0);
 //		System.out.println(j);
